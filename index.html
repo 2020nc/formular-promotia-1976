@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Promoția 1976 – Formular date de contact</title>
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ctext y=%2724%27 font-size=%2724%27%3E%F0%9F%93%9D%3C/text%3E%3C/svg%3E">
+
+  <!-- Telefon cu selectare țară / prefix (+40, +33, +49, +1 etc.) - LOCAL (offline) -->
+  <link rel="stylesheet" href="build/css/intlTelInput.css">
+  <script src="build/js/intlTelInput.min.js"></script>
+
+  <style>
+    :root { --max: 920px; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background:#f6f7fb; color:#111; }
+    header { background:#111827; color:#fff; padding: 28px 16px; }
+    header h1 { margin: 0 auto; max-width: var(--max); font-size: 22px; }
+    header p { margin: 10px auto 0; max-width: var(--max); opacity:.9; line-height:1.35; }
+    main { max-width: var(--max); margin: 18px auto 48px; padding: 0 16px; }
+    .card { background:#fff; border-radius: 14px; box-shadow: 0 8px 22px rgba(0,0,0,.06); padding: 18px; }
+    .grid { display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 720px){ .grid { grid-template-columns: 1fr; } }
+    label { display:block; font-weight: 650; margin: 10px 0 6px; }
+    input, select, textarea { width:100%; box-sizing:border-box; padding: 10px 11px; border: 1px solid #d6d9e0; border-radius: 10px; font-size: 14px; background:#fff; }
+    textarea { min-height: 90px; resize: vertical; }
+    .hint { font-size: 12px; color:#4b5563; margin-top: 6px; }
+    .row { margin-top: 10px; }
+    .actions { display:flex; gap: 10px; align-items:center; margin-top: 14px; flex-wrap: wrap; }
+    button { border: 0; background:#2563eb; color:#fff; padding: 10px 14px; border-radius: 12px; font-weight: 750; cursor:pointer; }
+    button:disabled { opacity:.6; cursor:not-allowed; }
+    .status { font-size: 14px; }
+    .ok { color:#065f46; }
+    .err { color:#b91c1c; }
+    .small { font-size: 12px; color:#6b7280; }
+    .consent { display:flex; gap:10px; align-items:flex-start; margin-top: 12px; }
+    .consent input { width:auto; margin-top: 2px; }
+    .hp { position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden; }
+
+    /* Search UI */
+    .searchWrap { position: relative; }
+    .results {
+      position:absolute; top: calc(100% + 6px); left:0; right:0;
+      background:#fff; border:1px solid #d6d9e0; border-radius: 12px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.10);
+      max-height: 280px; overflow:auto; z-index: 50;
+      display:none;
+    }
+    .item { padding: 10px 11px; cursor:pointer; border-bottom: 1px solid #eef0f4; font-size: 14px; }
+    .item:last-child { border-bottom: 0; }
+    .item:hover, .item.active { background:#f3f4f6; }
+    .pill {
+      display:inline-flex; gap:8px; align-items:center;
+      background:#eef2ff; color:#1f2937; border:1px solid #c7d2fe;
+      padding: 6px 10px; border-radius: 999px; font-size: 13px; margin-top: 8px;
+    }
+    .pill button { background: transparent; color:#1f2937; padding: 0; border-radius: 999px; font-weight: 900; line-height: 1; cursor:pointer; }
+
+    /* intl-tel-input */
+    .iti { width: 100%; }
+    .iti input { width: 100%; }
+
+    /* WhatsApp field hide/show */
+    .hidden { display:none !important; }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Promoția 1976 – Formular date de contact</h1>
+    <p>Adresa de email se confirmă printr-un mesaj de validare. După trimitere, verifică Inbox/Spam și apasă linkul primit.</p>
+  </header>
+
+  <main>
+    <div class="card">
+      <form id="contactForm" autocomplete="on">
+        <div class="grid">
+          <div>
+            <label for="clasa">Clasa (1976)</label>
+            <select id="clasa" name="clasa" required>
+              <option value="">Alege clasa…</option>
+              <option value="XII A">XII A</option>
+              <option value="XII B">XII B</option>
+              <option value="XII C">XII C</option>
+              <option value="XII D">XII D</option>
+              <option value="XII E">XII E</option>
+            </select>
+          </div>
+
+          <div class="searchWrap">
+            <label for="nume_search">Nume promoția 1976 (căutare rapidă în lista clasei)</label>
+            <input id="nume_search" placeholder="Alege întâi clasa…" disabled autocomplete="off" />
+            <div id="results" class="results" role="listbox" aria-label="Rezultate căutare"></div>
+
+            <div id="listMeta" class="small" style="display:none; margin-top:6px;">
+              <span id="listInfo"></span>
+              <button type="button" id="toggleListBtn" style="margin-left:10px; background:transparent; border:1px solid #d6d9e0; color:#111; padding:4px 8px; border-radius:999px; font-weight:700; cursor:pointer; display:none;">
+                Afișează tot
+              </button>
+            </div>
+
+            <div id="chosenPill" class="pill" style="display:none;">
+              <span id="chosenText"></span>
+              <button type="button" id="clearChosen" aria-label="Șterge selecția">×</button>
+            </div>
+
+            <div id="chosenMeta" class="small" style="display:none; margin-top:6px;"></div>
+
+            <div class="hint">După alegerea clasei, lista apare automat. Poți derula sau poți tasta 2–3 litere. Folosește săgețile ↑ ↓ și Enter pentru selectare.</div>
+
+            <input type="hidden" id="nume_complet" name="nume_complet" />
+          </div>
+
+          <div>
+            <label for="nume_2026">Nume din 2026 (dacă diferă)</label>
+            <input id="nume_2026" name="nume_2026" placeholder="ex: nume după căsătorie" />
+          </div>
+
+          <div>
+            <label for="telefon">Telefon (principal)</label>
+            <input id="telefon" name="telefon" inputmode="tel" placeholder="număr principal" />
+            <div class="hint">Alege țara din listă și scrie numărul fără prefix (se pune automat). Dacă nu apare selectorul, poți scrie manual +cod.</div>
+          </div>
+
+          <div>
+            <label for="email">Email (obligatoriu, se validează)</label>
+            <input id="email" name="email" type="email" required placeholder="nume@exemplu.com" />
+            <div class="hint">Vei primi un email cu link de confirmare.</div>
+          </div>
+
+          <div>
+            <label for="whatsapp_ok">Pot fi contactat pe WhatsApp?</label>
+            <select id="whatsapp_ok" name="whatsapp_ok">
+              <option value="">Alege…</option>
+              <option value="Da (acelasi numar)">Da (același număr)</option>
+              <option value="Da (alt numar)">Da (alt număr)</option>
+              <option value="Nu">Nu</option>
+            </select>
+            <div class="hint">Dacă alegi „Da (alt număr)”, apare câmpul pentru numărul WhatsApp.</div>
+          </div>
+
+          <div id="waTelWrap" class="hidden">
+            <label for="whatsapp_tel">Număr WhatsApp (dacă e diferit)</label>
+            <input id="whatsapp_tel" name="whatsapp_tel" inputmode="tel" placeholder="număr WhatsApp" />
+            <div class="hint">Obligatoriu doar când alegi „Da (alt număr)”.</div>
+          </div>
+
+          <div>
+            <label for="oras">Localitate</label>
+            <input id="oras" name="oras" placeholder="oraș / comună" />
+          </div>
+
+          <div>
+            <label for="tara">Țară</label>
+            <input id="tara" name="tara" placeholder="România" />
+          </div>
+
+          <div>
+            <label for="facebook">Link Facebook (opțional)</label>
+            <input id="facebook" name="facebook" type="url" placeholder="https://facebook.com/..." />
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="observatii">Observații (opțional)</label>
+          <textarea id="observatii" name="observatii" placeholder="ex: interval orar preferat, alt canal de contact, etc."></textarea>
+        </div>
+
+        <div class="hp">
+          <label for="website">Website</label>
+          <input id="website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="consent">
+          <input id="consimtamant" type="checkbox" required />
+          <div>
+            <label for="consimtamant" style="margin:0; font-weight:750;">Sunt de acord</label>
+            <div class="small">
+              Sunt de acord ca datele completate aici să fie folosite pentru contact între colegii Promoției 1976.
+              Pot cere oricând ștergerea/rectificarea datelor.
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="submitBtn" type="submit" disabled>Trimite</button>
+          <span id="status" class="status"></span>
+        </div>
+
+        <p class="small" style="margin-top:14px;">Formularul nu se poate trimite dacă numele nu este selectat din listă.</p>
+      </form>
+    </div>
+  </main>
+
+  <script src="names_by_class.global.js"></script>
+
+  <script>
+    
+  let __submitting = false;
+// Pune aici URL-ul tău de Web App (se termină în /exec)
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx8v0PgM2Eav63MHaCat-PyeB_cQeWGOzzuY-Wh_W0UgbGTQNxd_9Xev4qUWGhPdttC/exec";
+
+    const NAMES_BY_CLASS = window.NAMES_BY_CLASS || {};
+
+    const form = document.getElementById('contactForm');
+    const statusEl = document.getElementById('status');
+    const btn = document.getElementById('submitBtn');
+
+    const clasaEl = document.getElementById('clasa');
+    const nameInput = document.getElementById('nume_search');
+    const resultsEl = document.getElementById('results');
+    const hiddenNameEl = document.getElementById('nume_complet');
+
+    const chosenPill = document.getElementById('chosenPill');
+    const chosenText = document.getElementById('chosenText');
+    const clearChosenBtn = document.getElementById('clearChosen');
+
+    const listMetaEl = document.getElementById('listMeta');
+    const listInfoEl = document.getElementById('listInfo');
+    const toggleListBtn = document.getElementById('toggleListBtn');
+    const chosenMetaEl = document.getElementById('chosenMeta');
+
+    const emailEl = document.getElementById('email');
+    const consentEl = document.getElementById('consimtamant');
+
+    const whatsappOkEl = document.getElementById('whatsapp_ok');
+    const telEl = document.getElementById('telefon');
+
+    const waTelWrap = document.getElementById('waTelWrap');
+    const waTelEl = document.getElementById('whatsapp_tel');
+
+    // === Telefon: init plugin (offline) ===
+    let itiTelefon = null;
+    let itiWhatsapp = null;
+    try {
+      if (window.intlTelInput) {
+        const preferred = ["ro","fr","de","us","it","es","gb","ca","ch","at","be","nl"];
+        itiTelefon = window.intlTelInput(telEl, {
+          initialCountry: "ro",
+          separateDialCode: true,
+          preferredCountries: preferred,
+          // IMPORTANT: absolut de la root-ul serverului local
+          utilsScript: "/build/js/utils.js",
+        });
+        itiWhatsapp = window.intlTelInput(waTelEl, {
+          initialCountry: "ro",
+          separateDialCode: true,
+          preferredCountries: preferred,
+          utilsScript: "/build/js/utils.js",
+        });
+      } else {
+        console.warn("intl-tel-input nu s-a încărcat. Telefonul rămâne input simplu.");
+      }
+    } catch (e) {
+      console.warn("Inițializare telefon eșuată. Continui fără plugin.", e);
+      itiTelefon = null;
+      itiWhatsapp = null;
+    }
+
+    let currentNames = [];
+    let activeIndex = -1;
+    let lastRendered = [];
+    let showAllList = true;
+    const DEFAULT_SHOW_LIMIT = 60;
+
+    function setStatus(msg, kind){
+      statusEl.textContent = msg;
+      statusEl.className = 'status ' + (kind || '');
+    }
+
+    function normalize(s){
+      return String(s || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function isLikelyName(line){
+      const s = String(line || "").trim();
+      if (!s) return false;
+      const low = s.toLowerCase();
+      if (low === "contact") return false;
+      if (low.includes("telefon")) return false;
+      if (low.includes("whatsapp:")) return false;
+      if (low.includes("email:")) return false;
+      if (s.includes(":")) return false;
+      if (s.length < 5) return false;
+      return /\s/.test(s);
+    }
+
+    function closeResults(){
+      resultsEl.style.display = 'none';
+      activeIndex = -1;
+      setActive(-1);
+    }
+
+    function updateListMeta(fullCount, shownCount, filtered){
+      if (!fullCount){
+        listMetaEl.style.display = 'none';
+        toggleListBtn.style.display = 'none';
+        listInfoEl.textContent = '';
+        return;
+      }
+      listMetaEl.style.display = 'block';
+      listInfoEl.textContent = `În clasă: ${fullCount}. Afișat: ${shownCount}${filtered ? ' (filtrat)' : ''}.`;
+      if (fullCount > DEFAULT_SHOW_LIMIT && !filtered){
+        toggleListBtn.style.display = 'inline-block';
+        toggleListBtn.textContent = showAllList ? 'Restrânge' : 'Afișează tot';
+      } else {
+        toggleListBtn.style.display = 'none';
+      }
+    }
+
+    function getBaseList(){
+      if (showAllList) return currentNames.slice();
+      return currentNames.slice(0, DEFAULT_SHOW_LIMIT);
+    }
+
+    function setActive(idx){
+      const items = resultsEl.querySelectorAll('.item');
+      items.forEach((el, i) => el.classList.toggle('active', i === idx));
+    }
+
+    function renderResults(list, isFiltered){
+      resultsEl.innerHTML = '';
+      lastRendered = list.slice();
+      activeIndex = -1;
+
+      if (!list.length){ closeResults(); return; }
+
+      for (const name of list){
+        const div = document.createElement('div');
+        div.className = 'item';
+        div.setAttribute('role', 'option');
+        div.textContent = name;
+        div.addEventListener('mousedown', (ev) => {
+          ev.preventDefault();
+          chooseName(name);
+        });
+        resultsEl.appendChild(div);
+      }
+      resultsEl.style.display = 'block';
+      updateListMeta(currentNames.length, list.length, !!isFiltered);
+    }
+
+    function filterNames(query){
+      const q = normalize(query);
+      // Dacă nu s-a tastat (sau sunt prea puține caractere), afișăm lista clasei imediat.
+      if (q.length < 2) return getBaseList();
+      const MAX = 80;
+      const out = [];
+      for (const n of currentNames){
+        if (normalize(n).includes(q)){
+          out.push(n);
+          if (out.length >= MAX) break;
+        }
+      }
+      return out;
+    }
+
+    function chooseName(name){
+      hiddenNameEl.value = name;
+      nameInput.value = name;
+      chosenText.textContent = name;
+      chosenPill.style.display = 'inline-flex';
+
+      const pos = currentNames.indexOf(name) + 1;
+      if (pos > 0 && clasaEl.value){
+        chosenMetaEl.textContent = `${clasaEl.value} – #${pos} din ${currentNames.length}`;
+        chosenMetaEl.style.display = 'block';
+      } else {
+        chosenMetaEl.style.display = 'none';
+        chosenMetaEl.textContent = '';
+      }
+
+      closeResults();
+      refreshSubmitEnabled();
+    }
+
+    function clearChosen(){
+      hiddenNameEl.value = '';
+      chosenPill.style.display = 'none';
+      chosenText.textContent = '';
+      chosenMetaEl.style.display = 'none';
+      chosenMetaEl.textContent = '';
+      nameInput.value = '';
+      nameInput.focus();
+      refreshSubmitEnabled();
+    }
+
+    function enableSearchForClass(cls){
+      const raw = Array.isArray(NAMES_BY_CLASS[cls]) ? NAMES_BY_CLASS[cls] : [];
+      currentNames = raw.filter(isLikelyName);
+
+      showAllList = true;
+
+      hiddenNameEl.value = '';
+      chosenPill.style.display = 'none';
+      chosenMetaEl.style.display = 'none';
+      chosenMetaEl.textContent = '';
+      nameInput.value = '';
+      closeResults();
+
+      if (!currentNames.length){
+        nameInput.disabled = true;
+        nameInput.placeholder = 'Nu există listă pentru clasa aleasă';
+        updateListMeta(0, 0, false);
+      } else {
+        nameInput.disabled = false;
+        nameInput.placeholder = 'Derulează sau tastează 2–3 litere…';
+        // Afișăm imediat lista completă a clasei
+        setTimeout(() => {
+          nameInput.focus();
+          renderResults(getBaseList(), false);
+        }, 0);
+      }
+      refreshSubmitEnabled();
+    }
+
+    // === FORȚĂM format +<dialCode>... chiar dacă getNumber() nu întoarce E.164 ===
+    function getPhoneMain(){
+      const raw = (telEl.value || '').trim();
+      if (!raw) return '';
+
+      if (raw.startsWith('+')) return raw;
+      if (!itiTelefon) return raw;
+
+      let e164 = '';
+      try { e164 = (itiTelefon.getNumber ? String(itiTelefon.getNumber()).trim() : ''); } catch(_) {}
+      if (e164 && e164.startsWith('+')) return e164;
+
+      let dial = '';
+      try {
+        const c = itiTelefon.getSelectedCountryData ? itiTelefon.getSelectedCountryData() : null;
+        dial = c && c.dialCode ? String(c.dialCode) : '';
+      } catch(_) {}
+      const digits = raw.replace(/[^\d]/g, '');
+      if (dial && digits) return `+${dial}${digits}`;
+
+      return raw;
+    }
+
+    function getPhoneWhatsApp(){
+      const raw = (waTelEl.value || '').trim();
+      if (!raw) return '';
+      if (raw.startsWith('+')) return raw;
+
+      if (!itiWhatsapp) return raw;
+
+      let e164 = '';
+      try { e164 = (itiWhatsapp.getNumber ? String(itiWhatsapp.getNumber()).trim() : ''); } catch(_) {}
+      if (e164 && e164.startsWith('+')) return e164;
+
+      let dial = '';
+      try {
+        const c = itiWhatsapp.getSelectedCountryData ? itiWhatsapp.getSelectedCountryData() : null;
+        dial = c && c.dialCode ? String(c.dialCode) : '';
+      } catch(_) {}
+      const digits = raw.replace(/[^\d]/g, '');
+      if (dial && digits) return `+${dial}${digits}`;
+
+      return raw;
+    }
+
+
+
+    function getPhoneMetaMain(){
+      let dialCode = '';
+      let iso2 = '';
+      try {
+        const c = itiTelefon && itiTelefon.getSelectedCountryData ? itiTelefon.getSelectedCountryData() : null;
+        dialCode = c && c.dialCode ? String(c.dialCode) : '';
+        iso2 = c && c.iso2 ? String(c.iso2) : '';
+      } catch(_) {}
+      return { dialCode, iso2 };
+    }
+
+    function getPhoneMetaWhatsApp(){
+      let dialCode = '';
+      let iso2 = '';
+      try {
+        const c = itiWhatsapp && itiWhatsapp.getSelectedCountryData ? itiWhatsapp.getSelectedCountryData() : null;
+        dialCode = c && c.dialCode ? String(c.dialCode) : '';
+        iso2 = c && c.iso2 ? String(c.iso2) : '';
+      } catch(_) {}
+      return { dialCode, iso2 };
+    }
+
+    async function maybePrefillFromCurent(){
+      const email = (emailEl.value || '').trim().toLowerCase();
+      if (!email || !email.includes('@') || email.length < 6) return;
+      if (!SCRIPT_URL || SCRIPT_URL.includes('PASTE_YOUR')) return;
+
+      const url = SCRIPT_URL + '?action=lookup&email=' + encodeURIComponent(email);
+      try {
+        const res = await fetch(url, { method: 'GET' });
+        const txt = await res.text();
+        let j = null;
+        try { j = JSON.parse(txt); } catch(_) { return; }
+        if (!j || j.ok !== true || !j.found || !j.data) return;
+
+        const d = j.data;
+
+        // completăm doar câmpurile goale (nu suprascriem ce a scris utilizatorul)
+        if (!form.nume_2026.value && d.nume_2026) form.nume_2026.value = d.nume_2026;
+
+        if (!form.oras.value && d.oras) form.oras.value = d.oras;
+        if (!form.tara.value && d.tara) form.tara.value = d.tara;
+        if (!form.facebook.value && d.facebook) form.facebook.value = d.facebook;
+        if (!form.observatii.value && d.observatii) form.observatii.value = d.observatii;
+
+        // telefon
+        const telE164 = d.telefon_e164 || '';
+        if (!(telEl.value || '').trim() && telE164) {
+          try {
+            if (itiTelefon && itiTelefon.setNumber) itiTelefon.setNumber(telE164);
+            else telEl.value = telE164;
+          } catch(_) { telEl.value = telE164; }
+        }
+
+        // WhatsApp ok + număr (dacă e cazul)
+        if (!whatsappOkEl.value && d.whatsapp_ok) {
+          whatsappOkEl.value = d.whatsapp_ok;
+          updateWhatsAppVisibility();
+        }
+
+        const waE164 = d.whatsapp_e164 || '';
+        if (whatsappOkEl.value === 'Da (alt numar)') {
+          if (!(waTelEl.value || '').trim() && waE164) {
+            try {
+              if (itiWhatsapp && itiWhatsapp.setNumber) itiWhatsapp.setNumber(waE164);
+              else waTelEl.value = waE164;
+            } catch(_) { waTelEl.value = waE164; }
+          }
+        } else if (whatsappOkEl.value === 'Da (acelasi numar)') {
+          // dacă e același număr, aliniem cu telefonul principal
+          setWhatsAppSameAsMain();
+        }
+
+        refreshSubmitEnabled();
+        setStatus('Am precompletat câteva câmpuri din ultima ta trimitere.', 'ok');
+      } catch(_) {
+        // ignorăm erorile de prefill
+      }
+    }
+
+    function setWhatsAppSameAsMain(){
+      const main = getPhoneMain();
+      waTelEl.value = main ? main : '';
+    }
+
+    function updateWhatsAppVisibility(){
+      const v = whatsappOkEl.value;
+
+      if (v === "Da (alt numar)") {
+        waTelWrap.classList.remove('hidden');
+        waTelEl.required = true;
+      } else {
+        waTelWrap.classList.add('hidden');
+        waTelEl.required = false;
+
+        if (v === "Da (acelasi numar)") {
+          setWhatsAppSameAsMain();
+        } else {
+          waTelEl.value = '';
+        }
+      }
+      refreshSubmitEnabled();
+    }
+
+    function refreshSubmitEnabled(){
+      const hasClass = !!clasaEl.value;
+      const hasName = (hiddenNameEl.value || '').trim().length > 0;
+      const hasEmail = (emailEl.value || '').trim().length > 0;
+      const hasConsent = !!consentEl.checked;
+
+      const needsWaTel = (whatsappOkEl.value === "Da (alt numar)");
+      const hasWaTel = (waTelEl.value || '').trim().length > 0;
+
+      btn.disabled = !(hasClass && hasName && hasEmail && hasConsent && (!needsWaTel || hasWaTel));
+    }
+
+    clasaEl.addEventListener('change', () => {
+      const cls = clasaEl.value;
+      if (!cls){
+        currentNames = [];
+        nameInput.disabled = true;
+        nameInput.placeholder = 'Alege întâi clasa…';
+        clearChosen();
+        closeResults();
+        refreshSubmitEnabled();
+        return;
+      }
+      enableSearchForClass(cls);
+    });
+
+    nameInput.addEventListener('focus', () => {
+      if (nameInput.disabled) return;
+      const list = filterNames(nameInput.value);
+      renderResults(list, normalize(nameInput.value).length >= 2);
+    });
+
+    emailEl.addEventListener('input', refreshSubmitEnabled);
+    emailEl.addEventListener('blur', maybePrefillFromCurent);
+
+    consentEl.addEventListener('change', refreshSubmitEnabled);
+
+    whatsappOkEl.addEventListener('change', updateWhatsAppVisibility);
+    waTelEl.addEventListener('input', refreshSubmitEnabled);
+
+    telEl.addEventListener('input', () => {
+      if (whatsappOkEl.value === "Da (acelasi numar)") setWhatsAppSameAsMain();
+      refreshSubmitEnabled();
+    });
+
+    window.addEventListener('load', () => {
+      const cls = (clasaEl.value || '').trim();
+      if (cls) enableSearchForClass(cls);
+      updateWhatsAppVisibility();
+      refreshSubmitEnabled();
+    });
+
+    window.addEventListener('pageshow', () => {
+      const cls = (clasaEl.value || '').trim();
+      if (cls) enableSearchForClass(cls);
+      updateWhatsAppVisibility();
+      refreshSubmitEnabled();
+    });
+
+    nameInput.addEventListener('input', () => {
+      if (nameInput.disabled) return;
+
+      if (hiddenNameEl.value) {
+        hiddenNameEl.value = '';
+        chosenPill.style.display = 'none';
+        refreshSubmitEnabled();
+      }
+
+      const list = filterNames(nameInput.value);
+      renderResults(list, normalize(nameInput.value).length >= 2);
+    });
+
+    nameInput.addEventListener('keydown', (e) => {
+      if (resultsEl.style.display !== 'block') return;
+      const max = lastRendered.length;
+      if (!max) return;
+
+      if (e.key === 'ArrowDown'){
+        e.preventDefault();
+        activeIndex = Math.min(activeIndex + 1, max - 1);
+        setActive(activeIndex);
+        return;
+      }
+      if (e.key === 'ArrowUp'){
+        e.preventDefault();
+        activeIndex = Math.max(activeIndex - 1, -1);
+        setActive(activeIndex);
+        return;
+      }
+      if (e.key === 'Enter'){
+        if (activeIndex >= 0 && activeIndex < max){
+          e.preventDefault();
+          chooseName(lastRendered[activeIndex]);
+        }
+        return;
+      }
+      if (e.key === 'Escape'){
+        e.preventDefault();
+        closeResults();
+        return;
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      // Nu închide lista când interacționezi cu selectorul de clasă (altfel se închide imediat după schimbare)
+      if (e.target === clasaEl || (e.target && e.target.closest && e.target.closest('#clasa'))) return;
+      if (!resultsEl.contains(e.target) && e.target !== nameInput) closeResults();
+    });
+
+    toggleListBtn.addEventListener('click', () => {
+      if (!currentNames.length) return;
+      showAllList = !showAllList;
+      renderResults(getBaseList(), false);
+      nameInput.focus();
+    });
+
+    clearChosenBtn.addEventListener('click', clearChosen);
+
+    form.addEventListener('submit', async (e) => {
+    if (__submitting) return;
+    __submitting = true;
+    const btn = form.querySelector("button[type=submit]");
+    if (btn) btn.disabled = true;
+
+    try {
+
+      e.preventDefault();
+
+      const hp = (form.website?.value || '').trim();
+      if (hp) return;
+
+      const cls = clasaEl.value;
+      const finalName = (hiddenNameEl.value || '').trim();
+      const email = (emailEl.value || '').trim();
+
+      if (!cls || !finalName || !email || !consentEl.checked){
+        setStatus('Completează clasa, selectează numele din listă, email și consimțământ.', 'err');
+        refreshSubmitEnabled();
+        return;
+      }
+
+      if (whatsappOkEl.value === "Da (alt numar)" && !(waTelEl.value || '').trim()){
+        setStatus('Ai ales "WhatsApp pe alt număr". Completează numărul WhatsApp.', 'err');
+        refreshSubmitEnabled();
+        return;
+      }
+
+      btn.disabled = true;
+      setStatus('Se trimite…');
+
+      const phoneMain = getPhoneMain();
+      const phoneWa = getPhoneWhatsApp();
+
+      const metaMain = getPhoneMetaMain();
+      const metaWa = getPhoneMetaWhatsApp();
+
+      const payload = {
+        submission_id: (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now() + '-' + Math.random().toString(16).slice(2)),
+        clasa: cls,
+        nume_complet: finalName,                  // nume promoția 1976 (din listă)
+        nume_2026: (form.nume_2026.value || '').trim(), // nume actual (2026)
+        telefon: phoneMain,
+        telefon_e164: phoneMain,
+        telefon_cc: metaMain.dialCode,
+        telefon_iso2: metaMain.iso2,
+        telefon_raw: (telEl.value || '').trim(),
+
+        whatsapp_tel: phoneWa,
+        whatsapp_e164: phoneWa,
+        whatsapp_cc: metaWa.dialCode,
+        whatsapp_iso2: metaWa.iso2,
+        whatsapp_raw: (waTelEl.value || '').trim(),
+        email: email.trim().toLowerCase(),
+        oras: (form.oras.value || '').trim(),
+        tara: (form.tara.value || '').trim(),
+        facebook: (form.facebook.value || '').trim(),
+        whatsapp_ok: whatsappOkEl.value,
+        observatii: (form.observatii.value || '').trim(),
+        consent: true,
+        submitted_at_iso: new Date().toISOString(),
+        user_agent: navigator.userAgent,
+      };
+
+      try {
+        if (!SCRIPT_URL || SCRIPT_URL.includes('PASTE_YOUR')) {
+          throw new Error('SCRIPT_URL nu este setat.');
+        }
+
+        let data = null;
+        try {
+          const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+          let txt = "";
+          try { txt = await res.text(); } catch (_) {}
+          try { data = JSON.parse(txt); } catch (_) {}
+
+          if (data && data.ok === true) {
+            let msg = 'Trimis! Verifică emailul pentru confirmare (Inbox/Spam).';
+            if (data.updated) msg = 'Datele au fost actualizate. Mulțumim!';
+            else if (data.already_verified) msg = 'Deja confirmat: adresa de email este validată. Mulțumim!';
+            else if (data.resent) msg = 'Am retrimis linkul de confirmare. Verifică Inbox/Spam.';
+            else if (data.created) msg = 'Înregistrare nouă. Verifică emailul pentru confirmare (Inbox/Spam).';
+
+            setStatus(msg, 'ok');
+
+            form.reset();
+            try { itiTelefon && itiTelefon.setCountry && itiTelefon.setCountry('ro'); } catch(_){}
+            try { itiWhatsapp && itiWhatsapp.setCountry && itiWhatsapp.setCountry('ro'); } catch(_){}
+            waTelWrap.classList.add('hidden');
+            waTelEl.required = false;
+
+            currentNames = [];
+            nameInput.disabled = true;
+            nameInput.placeholder = 'Alege întâi clasa…';
+            hiddenNameEl.value = '';
+            chosenPill.style.display = 'none';
+            closeResults();
+            refreshSubmitEnabled();
+            return;
+          }
+        } catch (_) {}
+
+        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+
+        setStatus('Trimis! Verifică emailul pentru confirmare (Inbox/Spam).', 'ok');
+
+        form.reset();
+        try { itiTelefon && itiTelefon.setCountry && itiTelefon.setCountry('ro'); } catch(_){}
+        try { itiWhatsapp && itiWhatsapp.setCountry && itiWhatsapp.setCountry('ro'); } catch(_){}
+        waTelWrap.classList.add('hidden');
+        waTelEl.required = false;
+
+        currentNames = [];
+        nameInput.disabled = true;
+        nameInput.placeholder = 'Alege întâi clasa…';
+        hiddenNameEl.value = '';
+        chosenPill.style.display = 'none';
+        closeResults();
+        refreshSubmitEnabled();
+
+      } catch (err) {
+        console.error(err);
+        setStatus('Nu s-a putut trimite. Încearcă din nou sau contactează administratorul.', 'err');
+        refreshSubmitEnabled();
+      }
+
+    } finally {
+      __submitting = false;
+      const btn2 = form.querySelector("button[type=submit]");
+      if (btn2) btn2.disabled = false;
+    }
+
+});
+  </script>
+</body>
+</html>
