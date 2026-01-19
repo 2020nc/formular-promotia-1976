@@ -90,7 +90,7 @@ window.NAMES_BY_CLASS = {
     "Hirtan L. Dinu",
     "Hutanu I. Gheorghe",
     "Marciuc G. Rodica",
-    "Matase A. Mihaela-Liliana",
+    "Matasă A. Mihaela-Liliana",
     "Melnic E. Cristian-Adrian",
     "Negelschi D. Liviu",
     "Negruş G. Magdalena",
