@@ -126,6 +126,7 @@ window.NAMES_BY_CLASS = {
     "Grigorescu P. Monica-Maria",
     "Haras C. Mihaela",
     "lanovici G. Emilia",
+    ”Leibovici Madelena”,
     "Mancaș M.E. Maria-Marta",
     "Mihai G. Claudia",
     "Mihailescu G. Elena",
